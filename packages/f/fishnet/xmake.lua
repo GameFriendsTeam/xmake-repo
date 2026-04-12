@@ -5,18 +5,7 @@ package("fishnet")
 
     add_urls("https://github.com/GameFriendsTeam/FishNet.git")
 
-    local versionsfile = path.join(os.scriptdir(), "versions", "versions.txt")
-    if os.isfile(versionsfile) then
-        for _, line in ipairs(os.readfile(versionsfile):split("\n")) do
-            line = line:trim()
-            if #line > 0 and not line:startswith("#") then
-                local ver, commit = line:match("^(%S+)%s+(%S+)$")
-                if ver and commit then
-                    add_versions(ver, commit)
-                end
-            end
-        end
-    end
+    add_versionfiles("versions/versions.txt")
 
     add_configs("bedrock", {description = "Include Minecraft Bedrock extension", default = false, type = "boolean"})
 

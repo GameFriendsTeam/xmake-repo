@@ -5,10 +5,9 @@ package("fishnet")
 
     add_urls("https://github.com/GameFriendsTeam/FishNet.git")
 
-    local versionsdir = path.join(os.scriptdir(), "versions")
-    local versionsfile = path.join(versionsdir, "versions.txt")
+    local versionsfile = path.join(os.scriptdir(), "versions", "versions.txt")
     if os.isfile(versionsfile) then
-        for line in io.lines(versionsfile) do
+        for _, line in ipairs(os.readfile(versionsfile):split("\n")) do
             line = line:trim()
             if #line > 0 and not line:startswith("#") then
                 local ver, commit = line:match("^(%S+)%s+(%S+)$")

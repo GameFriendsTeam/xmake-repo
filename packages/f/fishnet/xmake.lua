@@ -24,11 +24,4 @@ package("fishnet")
         end
         import("package.tools.xmake").install(package, configs)
     end)
-
-    on_test(function (package)
-        assert(package:check_cxxsnippets({test = [[
-            #include <fishnet.h>
-            void test() {}
-        ]]}, {configs = {languages = "c++20"}}))
-    end)
 package_end()

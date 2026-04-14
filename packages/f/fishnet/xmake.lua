@@ -27,7 +27,7 @@ package("fishnet")
 
     on_test(function (package)
         assert(package:check_cxxsnippets({test = [[
-            #include <fishnet/fishnet.h>
+            #include <fishnet.h>
             void test() {}
         ]]}, {configs = {languages = "c++20"}}))
     end)

@@ -16,12 +16,33 @@ package("fishnet")
     end
 
     on_install("windows", "linux", "macosx", function (package)
-        local configs = {
-            "--examples=n"
-        }
+        local configs = {}
         if package:config("bedrock") then
             table.insert(configs, "--bedrock=y")
         end
         import("package.tools.xmake").install(package, configs)
+        
+        if package:config("bedrock") and os.isdir("include-bedrock") then
+            os.cp("include-bedrock/*", package:installdir("include"))
+        end
+    end)
+    on_test(function (package)
+        local test_code = [[
+            #include <fishnet/FishClient.h>
+            void test() {
+                fishnet::FishClient client;
+            }
+        ]]
+        assert(package:check_cxxsnippets({test = test_code}, {configs = {languages = "c++20"}}))
+
+        if package:config("bedrock") then
+            local bedrock_test_code = [[
+                #include <fishnet/bedrock/BedrockClient.h>
+                void test() {
+                    fishnet::bedrock::BedrockClient client;
+                }
+            ]]
+            assert(package:check_cxxsnippets({test = bedrock_test_code}, {configs = {languages = "c++20"}}))
+        end
     end)
 package_end()

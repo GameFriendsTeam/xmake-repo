@@ -21,6 +21,7 @@ package("fishnet")
             table.insert(configs, "--bedrock=y")
         end
         import("package.tools.xmake").install(package, configs)
+        os.cp("include/*", package:installdir("include"))
         
         if package:config("bedrock") and os.isdir("include-bedrock") then
             os.cp("include-bedrock/*", package:installdir("include"))
